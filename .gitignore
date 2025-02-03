@@ -1,5 +1,6 @@
 CorbalLorenzo_Daniel_2_notebook_veille_012025.ipynb
-data
+data/nlp
+data/img
 fine-tuned_deberta
 logs
 results
