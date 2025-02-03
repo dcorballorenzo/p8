@@ -234,7 +234,7 @@ def create_gauge_chart(probability):
     fig.add_trace(go.Indicator(
         mode="gauge+number",
         value=probability,
-        title={'text': "Probabilité de non-remboursement (%)"},
+        title={'text': "Probability of Default (%)"},
         gauge={
             "axis": {"range": [0, 100]},
             "bar": {"color": "black"},  # Arrow color
@@ -256,7 +256,7 @@ def create_gauge_chart(probability):
 state = get_state()
 
 st.markdown(
-    "<h1 style='text-align: center; color: black;'>Estimation du risque de non-remboursement</h1>",
+    "<h1 style='text-align: center; color: black;'>Risk of Loan Default Estimation</h1>",
     unsafe_allow_html=True,
 )
 sk_id_curr = st.text_input(
@@ -324,7 +324,7 @@ if col1.button("Run") or state["data_received"]:
     st.empty()
 
     decision_message = (
-        "Le prêt sera accordé." if proba < 48 else "Le prêt ne sera pas accordé."
+        "The loan will be granted." if proba < 48 else "The loan will not be granted."
     )
     st.markdown(
         f"<div style='text-align: center; color:{color}; font-size:30px; border:2px solid {color}; padding:10px;'>{decision_message}</div>",
@@ -440,43 +440,43 @@ if col1.button("Run") or state["data_received"]:
     # top_positive_shap = shap_df.sort_values(by="SHAP Value", ascending=False).head(10)
     # top_negative_shap = shap_df.sort_values(by="SHAP Value").head(10)
 
-    fig_positive = generate_figure(
-        top_positive_shap,
-        "Top 10 des fonctionnalités augmentant le risque de non-remboursement",
-        "right",
-        "total ascending",
-        "left",
-    )
-    fig_negative = generate_figure(
-        top_negative_shap,
-        "Top 10 des fonctionnalités réduisant le risque de non-remboursement",
-        "left",
-        "total descending",
-        "right",
-    )
+    # fig_positive = generate_figure(
+    #     top_positive_shap,
+    #     "Top 10 des fonctionnalités augmentant le risque de non-remboursement",
+    #     "right",
+    #     "total ascending",
+    #     "left",
+    # )
+    # fig_negative = generate_figure(
+    #     top_negative_shap,
+    #     "Top 10 des fonctionnalités réduisant le risque de non-remboursement",
+    #     "left",
+    #     "total descending",
+    #     "right",
+    # )
 
-    # Create a new row for the charts
-    col_chart1, col_chart2 = st.columns(2)
-    col_chart1.plotly_chart(fig_positive, use_container_width=True)
-    col_chart2.plotly_chart(fig_negative, use_container_width=True)
+    # # Create a new row for the charts
+    # col_chart1, col_chart2 = st.columns(2)
+    # col_chart1.plotly_chart(fig_positive, use_container_width=True)
+    # col_chart2.plotly_chart(fig_negative, use_container_width=True)
 
-    # Create columns for the dropdowns
-    col1, col2 = st.columns(2)
+    # # Create columns for the dropdowns
+    # col1, col2 = st.columns(2)
 
-    # Place the first dropdown in col1
-    with col1:
-        selected_feature_positive = st.selectbox(
-            "Sélectionnez une fonctionnalité augmentant le risque",
-            [""] + top_positive_shap["Feature"].tolist(),
-        )
+    # # Place the first dropdown in col1
+    # with col1:
+    #     selected_feature_positive = st.selectbox(
+    #         "Sélectionnez une fonctionnalité augmentant le risque",
+    #         [""] + top_positive_shap["Feature"].tolist(),
+    #     )
 
-    # Place the second dropdown in col2
-    with col2:
-        selected_feature_negative = st.selectbox(
-            "Sélectionnez une fonctionnalité réduisant le risque",
-            [""] + top_negative_shap["Feature"].tolist(),
-        )
+    # # Place the second dropdown in col2
+    # with col2:
+    #     selected_feature_negative = st.selectbox(
+    #         "Sélectionnez une fonctionnalité réduisant le risque",
+    #         [""] + top_negative_shap["Feature"].tolist(),
+    #     )
 
-    # Call the `plot_distribution` functions
-    plot_distribution(selected_feature_positive, col1)
-    plot_distribution(selected_feature_negative, col2)
+    # # Call the `plot_distribution` functions
+    # plot_distribution(selected_feature_positive, col1)
+    # plot_distribution(selected_feature_negative, col2)
