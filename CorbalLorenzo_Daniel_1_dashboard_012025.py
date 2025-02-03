@@ -11,8 +11,8 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Path to the training dataset file 'df_train.csv' located in the 'data' subdirectory
 # and feature definitions file 'definition_features.csv'
-path_df_train = os.path.join(current_directory, "data/df_train.csv")
-path_definition_features_df = os.path.join(current_directory, "data/definition_features.csv")
+path_df_train = os.path.join(current_directory, "data/dashboard/df_train.csv")
+path_definition_features_df = os.path.join(current_directory, "data/dashboard/definition_features.csv")
 
 # Loading data in specified paths
 df_train = pd.read_csv(path_df_train)
@@ -34,7 +34,7 @@ logger.setLevel(logging.DEBUG)
 # File handler to write log messages to a file
 file_handler = logging.FileHandler(LOG_FILE_PATH)
 # Prevent duplicate handlers
-if not logger.hasHandlers():  
+if not logger.hasHandlers():
     logger.setLevel(logging.DEBUG)
 
     # Create file handler
@@ -236,11 +236,11 @@ def create_gauge_chart(probability):
         value=probability,
         title={'text': "Probabilité de non-remboursement (%)"},
         gauge={
-            "axis": {"range": [0, 100]}, 
+            "axis": {"range": [0, 100]},
             "bar": {"color": "black"},  # Arrow color
             "steps": [
-                {"range": [0, 48], "color": "green"},    
-                {"range": [48, 100], "color": "red"},  
+                {"range": [0, 48], "color": "green"},
+                {"range": [48, 100], "color": "red"},
             ],
             "threshold": {
                 "line": {"color": "black", "width": 4},
@@ -298,7 +298,7 @@ if col1.button("Run") or state["data_received"]:
 
     data = state["data"]
     # logger.debug("DATA: %s", data)
-    
+
     proba = data["probability"]
     feature_names = data["feature_names"]
     shap_values = data["shap_values"]
@@ -367,12 +367,12 @@ if col1.button("Run") or state["data_received"]:
     contract_type = extract_category_value(data_series, "NAME_CONTRACT_TYPE")
 
     customer_description = f"""
-    **{gender_pronoun.capitalize()}** is a **{int(age_years)}** years old **{education_type}** who works in the **{income_type}** sector. **{gender_pronoun.capitalize()}** lives in a **{housing_type}** and is currently **{employment_duration_years}** years into employment. **{gender_pronoun.capitalize()}** is **{family_status}** and has applied for a **{contract_type.lower()}** loan. **{gender2_pronoun.capitalize()}** income is **{data_series['AMT_INCOME_TOTAL']}** €. 
+    **{gender_pronoun.capitalize()}** is a **{int(age_years)}** years old **{education_type}** who works in the **{income_type}** sector. **{gender_pronoun.capitalize()}** lives in a **{housing_type}** and is currently **{employment_duration_years}** years into employment. **{gender_pronoun.capitalize()}** is **{family_status}** and has applied for a **{contract_type.lower()}** loan. **{gender2_pronoun.capitalize()}** income is **{data_series['AMT_INCOME_TOTAL']}** €.
     """
     st.write(customer_description)
-            
+
     loan_description = f"""
-    The loan asked is **{data_series['AMT_CREDIT']}** €, and the annuity asked are **{data_series['AMT_ANNUITY']}** €. 
+    The loan asked is **{data_series['AMT_CREDIT']}** €, and the annuity asked are **{data_series['AMT_ANNUITY']}** €.
     """
     st.write(loan_description)
 
@@ -393,10 +393,10 @@ if col1.button("Run") or state["data_received"]:
 
     # # Select feature
     # all_features = list(feature_descriptions["Row"])  # Assuming "Row" contains feature names
-    
+
     # # Find description for the selected feature
     # feature_description = feature_descriptions[feature_descriptions["Row"] == selected_feature]["Description"].iloc[0]
-    
+
     # # Print description
     # st.write(f"Feature : **{feature_description}**")
 
@@ -404,7 +404,7 @@ if col1.button("Run") or state["data_received"]:
 
     # # Filter data based on selected feature
     # filtered_data = data_series.copy() # Avoid modifying original data
-        
+
     # # Separate data for full dataset and current customer
     # full_data_values = np.array(customer_data_copy[selected_feature])
     # customer_value = customer_data_copy[selected_feature].iloc[customer_index]
@@ -420,7 +420,7 @@ if col1.button("Run") or state["data_received"]:
     # counts_all, bins_all = np.histogram(filtered_data[selected_feature], bins=bins)
     # count_customer, _ = np.histogram(filtered_data[selected_feature].iloc[customer_index], bins=bins)
 
-    
+
     # # Find the bin index for the customer value
     # customer_bin_index = np.digitize(customer_value, bins=bins) - 1  # Adjust for zero-based indexing
 
